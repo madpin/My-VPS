@@ -52,3 +52,9 @@ If you already have the config in another machine:
 ```bash
 rclone config file
 ```
+
+
+<details><summary>Secret  </summary>
+
+![LOL Minion](static/images/lol-minion.gif)
+</details>
