@@ -54,7 +54,8 @@ rclone config file
 ```
 
 
-<details><summary>Secret  </summary>
+<details><summary>Secret</summary>
+I'm funny.  
 
 ![LOL Minion](static/images/lol-minion.gif)
 </details>
