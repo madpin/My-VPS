@@ -1,0 +1,22 @@
+---
+version: "2.1"
+services:
+  vscode:
+    image: ghcr.io/linuxserver/code-server
+    container_name: vscode
+    network_mode: bridge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - VIRTUAL_HOST=vscode.madpin.dev
+      - VIRTUAL_PORT=8443
+      - HASHED_PASSWORD=1e257346ce25debb4483bce750a5b90e4e6d0af3863107237b32f14806397128
+      - SUDO_PASSWORD_HASH=1e257346ce25debb4483bce750a5b90e4e6d0af3863107237b32f14806397128
+    volumes:
+      - ${HOME}/configs/code:/config
+      - ${HOME}:/data
+    # ports:
+    #   - 8443:8443
+    restart: unless-stopped
+

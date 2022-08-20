@@ -1,0 +1,45 @@
+---
+version: "2.1"
+services:
+  calibre-web:
+    image: linuxserver/calibre-web:nightly
+    container_name: calibre-web
+    network_mode: bridge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - DOCKER_MODS=linuxserver/calibre-web:calibre
+      # - LETSENCRYPT_EMAIL=letsencrypt@madpin.dev
+      # - LETSENCRYPT_HOST=library.madpin.dev
+      - VIRTUAL_HOST=library.madpin.dev
+      - VIRTUAL_PORT=8083
+    volumes:
+      - ${HOME}/configs/calibre/web:/config
+      - ${HOME}/calibre_library:/books
+    ports:
+      - 8083:8083
+    restart: always
+
+  calibre:
+    image: linuxserver/calibre
+    container_name: calibre
+    network_mode: bridge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - User=madpin #optional
+      - Pass=1dd9cd0d200e4a451853eabe927fc1dd
+      - UMASK_SET=022
+      # - LETSENCRYPT_HOST=calibre.madpin.dev
+      - VIRTUAL_HOST=calibre.madpin.dev
+      - VIRTUAL_PORT=8080
+    #   - CLI_ARGS= #optional
+    volumes:
+      - ${HOME}/configs/calibre/desktop:/config
+      - ${HOME}/calibre_library:/books
+    # ports:
+    #   - 8080:8080
+    #   - 8081:8081
+    restart: unless-stopped

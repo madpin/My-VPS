@@ -1,0 +1,8 @@
+---
+version: "2.1"
+services:
+  plextraktsync:
+    image: ghcr.io/taxel/plextraktsync
+    volumes:
+      - ${HOME}/configs/plextraktsync:/app/config
+    restart: unless-stopped
