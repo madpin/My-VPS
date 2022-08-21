@@ -19,6 +19,7 @@ services:
     volumes:
       - ${HOME}/configs/code:/config
       - ${HOME}/.ssh:/config/.ssh:ro
+      - ${HOME}/configs/code/known_hosts_from_host:/config/.ssh/known_hosts
       - ${HOME}:/data
     # ports:
     #   - 8443:8443
