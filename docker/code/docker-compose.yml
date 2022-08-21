@@ -18,6 +18,7 @@ services:
       - SUDO_PASSWORD_HASH=1e257346ce25debb4483bce750a5b90e4e6d0af3863107237b32f14806397128
     volumes:
       - ${HOME}/configs/code:/config
+      - ${HOME}/.ssh:/config/.ssh:ro
       - ${HOME}:/data
     # ports:
     #   - 8443:8443
