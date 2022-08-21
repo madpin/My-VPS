@@ -1,0 +1,4 @@
+0 0 * * * bash /home/madpin/server/bash/crontab/202207/EveryDay.sh
+0 */1 * * * bash /home/madpin/server/bash/crontab/202207/Every1h.sh
+0 */6 * * * bash /home/madpin/server/bash/crontab/202207/Every6h.sh
+0 */12 * * * bash /home/madpin/server/bash/crontab/202207/Every12h.sh
