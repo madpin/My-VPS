@@ -1,23 +1,6 @@
-version: "3"
+---
+version: '3'
 services:
-  mariadb_lychee:
-    image: ghcr.io/linuxserver/mariadb:latest
-    container_name: mariadb_lychee
-    restart: unless-stopped
-    networks:
-      - website-internal
-    volumes:
-      - ${HOME}/website/configs/lychee_mysql:/config
-    environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_DATABASE=lychee
-      - MYSQL_USER=lychee
-      - MYSQL_PASSWORD=dbpassword
-      - PGID=1000
-      - PUID=1000
-      - TZ=Europe/London
-
-
   lychee:
     image: ghcr.io/linuxserver/lychee:latest
     container_name: lychee
@@ -26,42 +9,41 @@ services:
       - website-internal
       - nginx-proxy
     depends_on:
-      - mariadb_lychee
+      - lychee_db
     volumes:
-      - ${HOME}/website/configs/lychee:/config
+      - ${HOME}/configs/website/lychee:/config
       - ${HOME}/photos:/pictures
     environment:
-      - DB_HOST=mariadb_lychee
-      - DB_USERNAME=lychee
-      - DB_PASSWORD=dbpassword
+      - DB_HOST=lychee_db
+      - DB_USERNAME=exampleuser
+      - DB_PASSWORD=examplepass
       - DB_DATABASE=lychee
       - DB_PORT=3306
       - PGID=1000
       - PUID=1000
       - TZ=Europe/London
       - VIRTUAL_HOST=photos.madpin.dev
-      # - VIRTUAL_PORT=90
-
-  wordpress_db:
+  lychee_db:
     image: mysql:5.7
-    container_name: wordpress_db
+    user: '1000:1000'
+    container_name: lychee_db
     restart: unless-stopped
-    command: [--ignore-db-dir=lost+found --initialize-insecure]
+    command:
+      - '--ignore-db-dir=lost+found --initialize-insecure'
     networks:
       - website-internal
     environment:
-      - MYSQL_DATABASE=exampledb
+      - MYSQL_DATABASE=lychee
       - MYSQL_USER=exampleuser
       - MYSQL_PASSWORD=examplepass
       - MYSQL_ROOT_PASSWORD=random_password
     volumes:
-      - ${HOME}/configs/website/wordpress_db:/var/lib/mysql
-
-
+      - ${HOME}/configs/website/lychee_db:/var/lib/mysql
   wordpress:
     image: wordpress
     container_name: wordpress
     restart: unless-stopped
+    user: '1000:1000'
     networks:
       - website-internal
       - nginx-proxy
@@ -71,16 +53,30 @@ services:
       - WORDPRESS_DB_HOST=wordpress_db
       - WORDPRESS_DB_USER=exampleuser
       - WORDPRESS_DB_PASSWORD=examplepass
-      - WORDPRESS_DB_NAME=exampledb
+      - WORDPRESS_DB_NAME=wordpress
       - VIRTUAL_HOST=madpin.dev
     volumes:
       - ${HOME}/configs/website/wordpress:/var/www/html
-
+  wordpress_db:
+    image: mysql:5.7
+    user: '1000:1000'
+    container_name: wordpress_db
+    restart: unless-stopped
+    command:
+      - '--ignore-db-dir=lost+found --initialize-insecure'
+    networks:
+      - website-internal
+    environment:
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=exampleuser
+      - MYSQL_PASSWORD=examplepass
+      - MYSQL_ROOT_PASSWORD=random_password
+    volumes:
+      - ${HOME}/configs/website/wordpress_db:/var/lib/mysql
 networks:
   nginx-proxy:
     external:
       name: nginx-proxy
-
   website-internal:
     name: website-internal
     driver: bridge
