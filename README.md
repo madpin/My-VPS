@@ -10,16 +10,14 @@ Now on Debian 🥳
 ### Let's make sure everything is updates:
 
 ```bash
-dnf check-update
-dnf update
-dnf clean all
-dnf install nano vim wget curl net-tools lsof
+apt update
+sudo apt install -y nano vim wget curl net-tools lsof
 ```
 
 ### Install Zsh
 
 ```bash
-dnf install zsh
+sudo apt install -y zsh
 ```
 
 ### Creating a New User
@@ -29,7 +27,7 @@ I'll put my commands here, so replace `madpin` for your username.
 ```bash
 adduser madpin
 passwd madpin
-usermod -aG wheel madpin
+usermod -aG sudo madpin
 ```
 
 Add the SSH Key for the user:

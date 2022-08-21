@@ -1,0 +1,69 @@
+version: "3"
+services:
+  mariadb_lychee:
+    image: ghcr.io/linuxserver/mariadb:latest
+    container_name: mariadb_lychee
+    restart: unless-stopped
+    volumes:
+      - ${HOME}/configs/lychee_mysql:/config
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=lychee
+      - MYSQL_USER=lychee
+      - MYSQL_PASSWORD=dbpassword
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+
+
+  lychee:
+    image: ghcr.io/linuxserver/lychee:latest
+    container_name: lychee
+    restart: unless-stopped
+    depends_on:
+      - mariadb_lychee
+    volumes:
+      - ${HOME}/configs/lychee:/config
+      - ${HOME}/photos:/pictures
+    environment:
+      - DB_HOST=mariadb_lychee
+      - DB_USERNAME=lychee
+      - DB_PASSWORD=dbpassword
+      - DB_DATABASE=lychee
+      - DB_PORT=3306
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+      - VIRTUAL_HOST=photos.madpin.dev
+      # - VIRTUAL_PORT=90
+    # ports:
+    #   - 90:80
+
+  wordpress_db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_DATABASE=exampledb
+      - MYSQL_USER=exampleuser
+      - MYSQL_PASSWORD=examplepass
+      - MYSQL_RANDOM_ROOT_PASSWORD='1'
+    volumes:
+      - ${HOME}/configs/wordpress_db:/var/lib/mysql
+
+
+  wordpress:
+    image: wordpress
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=wordpress_db
+      - WORDPRESS_DB_USER=exampleuser
+      - WORDPRESS_DB_PASSWORD=examplepass
+      - WORDPRESS_DB_NAME=exampledb
+      - VIRTUAL_HOST=madpin.dev
+    volumes:
+      - ${HOME}/configs/wordpress:/var/www/html
+
+networks:
+  default:
+    external:
+      name: proxy_network
