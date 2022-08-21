@@ -19,7 +19,10 @@ services:
       - VIRTUAL_HOST=jupyter.madpin.dev
       - VIRTUAL_PORT=8888
     restart: unless-stopped
-    command: start-notebook.sh --NotebookApp.password='sha1:47a87a60d69d:e98216612acf96544b2ea28b49bd25db03b58197' --ip='*'
+    command: >
+      start-notebook.sh
+      --NotebookApp.password='sha1:47a87a60d69d:e98216612acf96544b2ea28b49bd25db03b58197'
+      --ip='*'
 
 networks:
   nginx-proxy:

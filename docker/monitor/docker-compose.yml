@@ -1,0 +1,55 @@
+version: '3'
+services:
+  netdata:
+    image: netdata/netdata
+    container_name: netdata
+    networks:
+      - nginx-proxy
+    environment:
+      - VIRTUAL_HOST=netdata.madpin.dev
+      - VIRTUAL_PORT=19999
+      - NETDATA_CLAIM_TOKEN=f3GK--ydX5dgGdA6tOfhuD5K0N8j0q4w1YVPXT0Ia1Expuk9t-f0W6oUBbu_hzmpdcbpPRj_H_Gbde1eezEV4kgGsHKdaiNwTUNq27oWA5uu0oYuKH0Gn_GdyWwmn_6lymz7TgI
+      - NETDATA_CLAIM_URL=https://app.netdata.cloud
+      - NETDATA_CLAIM_ROOMS=
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - netdataconfig:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    networks:
+      - nginx-proxy
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - VIRTUAL_HOST=portainer.madpin.dev
+      - VIRTUAL_PORT=9000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${HOME}/configs/portainer:/data
+
+volumes:
+  netdataconfig:
+  netdatalib:
+  netdatacache:
+
+
+networks:
+  nginx-proxy:
+    external:
+      name: nginx-proxy

@@ -51,7 +51,26 @@ If you already have the config in another machine:
 rclone config file
 ```
 
+### Setting the time:
 
+```bash
+sudo timedatectl set-timezone Europe/Dublin
+```
+
+<details><summary>If you don't know your timezone:</summary>
+
+```bash
+timedatectl list-timezones
+```
+This will give you a list of all available timezones  
+But that's too many, so you can combine with grep and search it:
+```bash
+timedatectl list-timezones | grep -i paulo
+```
+For example, for Sao Paulo (my hometown)
+</details>
+
+<hr>
 <details><summary>Secret</summary>
 I'm funny.  
 
