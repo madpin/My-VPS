@@ -36,6 +36,8 @@ services:
       - ./htpasswd:/etc/nginx/htpasswd:ro
       - ./my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf:ro
     # network_mode: bridge
+    networks:
+      - nginx-proxy
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -51,6 +53,8 @@ services:
       - certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     # network_mode: bridge
+    networks:
+      - nginx-proxy
 
 volumes:
   conf:
@@ -60,7 +64,6 @@ volumes:
   certs:
 
 networks:
-  default:
-    nginx-proxy:
-      name: nginx-proxy
-      driver: bridge
+  nginx-proxy:
+    name: nginx-proxy
+    driver: bridge
