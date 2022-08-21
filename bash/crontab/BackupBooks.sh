@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PATH=/usr/local/bin:/usr/bin:/home/madpin/bin:/usr/local/sbin:/usr/sbin
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 rclone sync ~/calibre_library mega:/VPSBackups/calibre/library
 rclone sync ~/configs/calibre mega:/VPSBackups/calibre/configs
