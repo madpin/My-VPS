@@ -1,6 +1,6 @@
 # My VPS
 
-This is my Dockers and files for my VPS install and reinstall
+This is my Dockers and files for my VPS install and reinstall2
 
 > Tip: `git clone https://github.com/madpin/my-vps.git ~/server`
 
