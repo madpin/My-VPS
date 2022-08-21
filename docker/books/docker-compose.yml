@@ -48,4 +48,4 @@ services:
 networks:
   nginx-proxy:
     external:
-      name: proxy_network
+      name: nginx-proxy
