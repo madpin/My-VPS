@@ -24,7 +24,7 @@ services:
   calibre:
     image: linuxserver/calibre
     container_name: calibre
-    # network_mode: bridge
+    network_mode: bridge
     environment:
       - PUID=1000
       - PGID=1000
