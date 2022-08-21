@@ -5,7 +5,7 @@ services:
     container_name: mariadb_lychee
     restart: unless-stopped
     volumes:
-      - ${HOME}/configs/lychee_mysql:/config
+      - ${HOME}/website/configs/lychee_mysql:/config
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_DATABASE=lychee
@@ -23,7 +23,7 @@ services:
     depends_on:
       - mariadb_lychee
     volumes:
-      - ${HOME}/configs/lychee:/config
+      - ${HOME}/website/configs/lychee:/config
       - ${HOME}/photos:/pictures
     environment:
       - DB_HOST=mariadb_lychee
@@ -41,19 +41,19 @@ services:
 
   wordpress_db:
     image: mysql:5.7
-    restart: always
+    restart: unless-stopped
     environment:
       - MYSQL_DATABASE=exampledb
       - MYSQL_USER=exampleuser
       - MYSQL_PASSWORD=examplepass
       - MYSQL_RANDOM_ROOT_PASSWORD='1'
     volumes:
-      - ${HOME}/configs/wordpress_db:/var/lib/mysql
+      - ${HOME}/configs/website/wordpress_db:/var/lib/mysql
 
 
   wordpress:
     image: wordpress
-    restart: always
+    restart: unless-stopped
     environment:
       - WORDPRESS_DB_HOST=wordpress_db
       - WORDPRESS_DB_USER=exampleuser
@@ -61,7 +61,7 @@ services:
       - WORDPRESS_DB_NAME=exampledb
       - VIRTUAL_HOST=madpin.dev
     volumes:
-      - ${HOME}/configs/wordpress:/var/www/html
+      - ${HOME}/configs/website/wordpress:/var/www/html
 
 networks:
   default:

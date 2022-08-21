@@ -4,7 +4,7 @@ services:
   calibre-web:
     image: linuxserver/calibre-web:nightly
     container_name: calibre-web
-    network_mode: bridge
+    # network_mode: bridge
     environment:
       - PUID=1000
       - PGID=1000
@@ -17,14 +17,14 @@ services:
     volumes:
       - ${HOME}/configs/calibre/web:/config
       - ${HOME}/calibre_library:/books
-    ports:
-      - 8083:8083
-    restart: always
+    # ports:
+    #   - 8083:8083
+    restart: unless-stopped
 
   calibre:
     image: linuxserver/calibre
     container_name: calibre
-    network_mode: bridge
+    # network_mode: bridge
     environment:
       - PUID=1000
       - PGID=1000

@@ -22,5 +22,5 @@ services:
       - VIRTUAL_PORT=8888
     # ports:
     #   - 8888:8888
-    restart: always
+    restart: unless-stopped
     command: start-notebook.sh --NotebookApp.password='sha1:47a87a60d69d:e98216612acf96544b2ea28b49bd25db03b58197' --ip='*'
