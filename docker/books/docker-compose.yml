@@ -5,6 +5,8 @@ services:
     image: linuxserver/calibre-web:nightly
     container_name: calibre-web
     # network_mode: bridge
+    networks:
+      - nginx-proxy
     environment:
       - PUID=1000
       - PGID=1000
@@ -24,13 +26,13 @@ services:
   calibre:
     image: linuxserver/calibre
     container_name: calibre
-    network_mode: bridge
+    # network_mode: bridge
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - User=madpin #optional
-      - PASSWORD=pwd
+      # - User=madpin #optional
+      # - PASSWORD=1dd9cd0d200e4a451853eabe927fc1dd
       - UMASK_SET=022
       # - LETSENCRYPT_HOST=calibre.madpin.dev
       - VIRTUAL_HOST=calibre.madpin.dev
@@ -43,3 +45,7 @@ services:
     #   - 8080:8080
     #   - 8081:8081
     restart: unless-stopped
+networks:
+  default:
+    external:
+      name: proxy_network
