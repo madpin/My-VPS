@@ -1,1 +1,1 @@
-docker exec wordpress_db sh -c 'exec mysqldump --all-databases -u exampleuser -pexamplepass' > ~/configs/website/bkp/wordpress_db.sql
+docker exec wordpress_db sh -c 'exec mysqldump --all-databases -u root -prandom_password' > ~/configs/website/bkp/wordpress_db.sql
