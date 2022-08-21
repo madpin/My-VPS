@@ -14,6 +14,7 @@ services:
       - JUPYTER_ENABLE_LAB=yes
       - RESTARTABLE=yes
       - NB_USER=madpin
+      - NB_GROUP=madpin
       - CHOWN_HOME=yes
       - VIRTUAL_HOST=jupyter.madpin.dev
       - VIRTUAL_PORT=8888
