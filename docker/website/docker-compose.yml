@@ -45,6 +45,7 @@ services:
   wordpress_db:
     image: mysql:5.7
     restart: unless-stopped
+    command: [--ignore-db-dir=lost+found --initialize-insecure]
     networks:
       - website-internal
     environment:
