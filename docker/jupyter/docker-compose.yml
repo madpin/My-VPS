@@ -13,8 +13,8 @@ services:
       - TZ=Europe/Dublin
       - JUPYTER_ENABLE_LAB=yes
       - RESTARTABLE=yes
-      - NB_USER=madpin
-      - NB_GROUP=madpin
+      - NB_GID=1000
+      - NB_UID=1000
       - CHOWN_HOME=yes
       - VIRTUAL_HOST=jupyter.madpin.dev
       - VIRTUAL_PORT=8888
