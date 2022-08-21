@@ -45,7 +45,7 @@ services:
     #   - 8080:8080
     #   - 8081:8081
     restart: unless-stopped
-networks:
-  default:
-    external:
-      name: proxy_network
+# networks:
+#   default:
+#     external:
+#       name: proxy_network
