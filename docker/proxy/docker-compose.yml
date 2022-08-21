@@ -60,6 +60,7 @@ volumes:
   certs:
 
 networks:
-  nginx-proxy:
-    name: nginx-proxy
-    driver: bridge
+  default:
+    nginx-proxy:
+      name: nginx-proxy
+      driver: bridge
