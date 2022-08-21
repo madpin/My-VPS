@@ -4,6 +4,8 @@ services:
     image: ghcr.io/linuxserver/mariadb:latest
     container_name: mariadb_lychee
     restart: unless-stopped
+    networks:
+      - website-internal
     volumes:
       - ${HOME}/website/configs/lychee_mysql:/config
     environment:
@@ -20,6 +22,9 @@ services:
     image: ghcr.io/linuxserver/lychee:latest
     container_name: lychee
     restart: unless-stopped
+    networks:
+      - website-internal
+      - nginx-proxy
     depends_on:
       - mariadb_lychee
     volumes:
@@ -36,12 +41,12 @@ services:
       - TZ=Europe/London
       - VIRTUAL_HOST=photos.madpin.dev
       # - VIRTUAL_PORT=90
-    # ports:
-    #   - 90:80
 
   wordpress_db:
     image: mysql:5.7
     restart: unless-stopped
+    networks:
+      - website-internal
     environment:
       - MYSQL_DATABASE=exampledb
       - MYSQL_USER=exampleuser
@@ -54,6 +59,11 @@ services:
   wordpress:
     image: wordpress
     restart: unless-stopped
+    networks:
+      - website-internal
+      - nginx-proxy
+    depends_on:
+      - wordpress_db
     environment:
       - WORDPRESS_DB_HOST=wordpress_db
       - WORDPRESS_DB_USER=exampleuser
@@ -64,6 +74,10 @@ services:
       - ${HOME}/configs/website/wordpress:/var/www/html
 
 networks:
-  default:
+  nginx-proxy:
     external:
-      name: proxy_network
+      name: nginx-proxy
+
+  website-internal:
+    name: website-internal
+    driver: bridge
