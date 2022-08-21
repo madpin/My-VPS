@@ -30,7 +30,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
       - User=madpin #optional
-      - Pass=1dd9cd0d200e4a451853eabe927fc1dd
+      - PASSWORD=1dd9cd0d200e4a451853eabe927fc1dd
       - UMASK_SET=022
       # - LETSENCRYPT_HOST=calibre.madpin.dev
       - VIRTUAL_HOST=calibre.madpin.dev
