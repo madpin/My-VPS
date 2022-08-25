@@ -1,13 +1,13 @@
+---
 version: '3'
 services:
+
   netdata:
     image: netdata/netdata
     container_name: netdata
     networks:
-      - nginx-proxy
+      - caddy
     environment:
-      - VIRTUAL_HOST=netdata.madpin.dev
-      - VIRTUAL_PORT=19999
       - NETDATA_CLAIM_TOKEN=f3GK--ydX5dgGdA6tOfhuD5K0N8j0q4w1YVPXT0Ia1Expuk9t-f0W6oUBbu_hzmpdcbpPRj_H_Gbde1eezEV4kgGsHKdaiNwTUNq27oWA5uu0oYuKH0Gn_GdyWwmn_6lymz7TgI
       - NETDATA_CLAIM_URL=https://app.netdata.cloud
       - NETDATA_CLAIM_ROOMS=
@@ -26,30 +26,54 @@ services:
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      caddy: netdata.madpin.dev
+      caddy.reverse_proxy: "{{upstreams 19999}}"
+
 
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
     networks:
-      - nginx-proxy
+      - caddy
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    environment:
-      - VIRTUAL_HOST=portainer.madpin.dev
-      - VIRTUAL_PORT=9000
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${HOME}/configs/portainer:/data
+    labels:
+      caddy: portainer.madpin.dev
+      caddy.reverse_proxy: "{{upstreams 9000}}"
+
+
+  diun:
+    image: crazymax/diun:latest
+    container_name: diun
+    volumes:
+      - ${HOME}/configs/dium/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TZ=Europe/Dublin
+      - LOG_LEVEL=info
+      - LOG_JSON=false
+      - DIUN_WATCH_WORKERS=20
+      - DIUN_WATCH_SCHEDULE=0 14 * * *
+      - DIUN_PROVIDERS_DOCKER=true
+      - DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true
+    env_file:
+      - ${HOME}/configs/dium/secrets.env
+    restart: unless-stopped
+
 
 volumes:
-  netdataconfig:
-  netdatalib:
-  netdatacache:
+  netdataconfig: null
+  netdatalib: null
+  netdatacache: null
 
 
 networks:
-  nginx-proxy:
+  caddy:
     external:
-      name: nginx-proxy
+      name: caddy

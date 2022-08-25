@@ -1,0 +1,33 @@
+
+vscode.madpin.dev {
+    reverse_proxy host.docker.internal:3000
+}
+_5000.madpin.dev {reverse_proxy host.docker.internal:5000}
+_5001.madpin.dev {reverse_proxy host.docker.internal:5001}
+_5002.madpin.dev {reverse_proxy host.docker.internal:5002}
+_5003.madpin.dev {reverse_proxy host.docker.internal:5003}
+_5004.madpin.dev {reverse_proxy host.docker.internal:5004}
+_5005.madpin.dev {reverse_proxy host.docker.internal:5005}
+_5006.madpin.dev {reverse_proxy host.docker.internal:5006}
+_5007.madpin.dev {reverse_proxy host.docker.internal:5007}
+_5008.madpin.dev {reverse_proxy host.docker.internal:5008}
+_5009.madpin.dev {reverse_proxy host.docker.internal:5009}
+
+
+lalala.madpin.dev {
+    reverse_proxy calibre-web:8083
+}
+hihi.madpin.dev {
+    reverse_proxy 192.0.0.1:8083
+}
+
+# library.madpin.dev {
+#     reverse_proxy calibre-web:8083
+#     basicauth / scrypt {
+#         madpin QXeBGa6USDuJ+t4x5BtlhO9cMWydy5BtdFRTd+HZN3U= cmVhbGx5X2g0cmRfc2FsdA==
+#     }
+# }
+
+# Create a Password:
+# docker-compose run --rm caddy caddy hash-password --algorithm scrypt --salt salt_here
+# The salt in the doc, is the base64 of the string: https://www.base64encode.org/

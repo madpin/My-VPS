@@ -6,7 +6,7 @@ services:
     working_dir: /home/madpin
     container_name: jupyter
     networks:
-      - nginx-proxy
+      - caddy
     volumes:
       - ${HOME}/ipynbs:/home/madpin
     environment:
@@ -16,15 +16,16 @@ services:
       - NB_GID=1000
       - NB_UID=1000
       - CHOWN_HOME=yes
-      - VIRTUAL_HOST=jupyter.madpin.dev
-      - VIRTUAL_PORT=8888
     restart: unless-stopped
     command: >
       start-notebook.sh
       --NotebookApp.password='sha1:47a87a60d69d:e98216612acf96544b2ea28b49bd25db03b58197'
       --ip='*'
+    labels:
+      caddy: jupyter.madpin.dev
+      caddy.reverse_proxy: "{{upstreams 8888}}"
 
 networks:
-  nginx-proxy:
+  caddy:
     external:
-      name: nginx-proxy
+      name: caddy

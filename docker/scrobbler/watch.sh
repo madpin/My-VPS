@@ -1,1 +1,2 @@
-docker-compose run --rm plextraktsync watch -d
+#!/bin/bash
+docker-compose run --rm -d plextraktsync watch

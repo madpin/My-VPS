@@ -1,69 +1,38 @@
-# version: '3'
-
-# services:
-#   # Source: https://hub.docker.com/r/jwilder/nginx-proxy
-#   nginx-proxy:
-#     image: jwilder/nginx-proxy
-#     network_mode: bridge
-#     ports:
-#       - "80:80" 
-#       - "443:443"
-#     volumes:
-#       - /var/run/docker.sock:/tmp/docker.sock:ro
-#       - ./my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf:ro
+version: "3.7"
 
 
-version: '2'
+      
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx-proxy
-    restart: always
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    container_name: caddy
     ports:
-      - "80:80"
-      - "443:443"
-    environment:
-      - DHPARAM_GENERATION:false
-    volumes:
-      # letsencrypt >>>
-      - conf:/etc/nginx/conf.d
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - dhparam:/etc/nginx/dhparam
-      - certs:/etc/nginx/certs:ro
-      # <<< letsencrypt
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./htpasswd:/etc/nginx/htpasswd:ro
-      - ./my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf:ro
-    # network_mode: bridge
+      - 80:80
+      - 443:443
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
-      - nginx-proxy
-
-  letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: nginx-proxy-le
-    restart: always
+      - caddy
     environment:
-      - DEFAULT_EMAIL=madpin@gmail.com
-      # - ACME_CA_URI=https://acme.zerossl.com/v2/DV90
-      # - ACME_EAB_KID=
-    volumes_from:
-      - nginx-proxy
+      - CADDY_INGRESS_NETWORKS=caddy
+      - CADDY_DOCKER_CADDYFILE_PATH=/Caddyfile
     volumes:
-      - certs:/etc/nginx/certs:rw
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    # network_mode: bridge
-    networks:
-      - nginx-proxy
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/configs/caddy:/data
+      - ${PWD}/Caddyfile:/Caddyfile
+    restart: unless-stopped
 
-volumes:
-  conf:
-  vhost:
-  html:
-  dhparam:
-  certs:
+  whoami:
+    image: jwilder/whoami
+    container_name: whoami
+    networks:
+      - caddy
+    labels:
+      caddy: whoami.madpin.dev
+      caddy.reverse_proxy: "{{upstreams 8000}}"
+
 
 networks:
-  nginx-proxy:
-    name: nginx-proxy
+  caddy:
+    name: caddy
     driver: bridge

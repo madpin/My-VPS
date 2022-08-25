@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     networks:
       - website-internal
-      - nginx-proxy
+      - caddy
     depends_on:
       - lychee_db
     volumes:
@@ -21,8 +21,12 @@ services:
       - DB_PORT=3306
       - PGID=1000
       - PUID=1000
-      - TZ=Europe/London
+      - TZ=Europe/Dublin
       - VIRTUAL_HOST=photos.madpin.dev
+    labels:
+      caddy: photos.madpin.dev
+      caddy.reverse_proxy: "{{upstreams 80}}"
+
   lychee_db:
     image: mysql:5.7
     user: '1000:1000'
@@ -39,6 +43,8 @@ services:
       - MYSQL_ROOT_PASSWORD=random_password
     volumes:
       - ${HOME}/configs/website/lychee_db:/var/lib/mysql
+
+
   wordpress:
     image: wordpress
     container_name: wordpress
@@ -46,7 +52,7 @@ services:
     user: '1000:1000'
     networks:
       - website-internal
-      - nginx-proxy
+      - caddy
     depends_on:
       - wordpress_db
     environment:
@@ -57,6 +63,10 @@ services:
       - VIRTUAL_HOST=madpin.dev
     volumes:
       - ${HOME}/configs/website/wordpress:/var/www/html
+    labels:
+      caddy: madpin.dev
+      caddy.reverse_proxy: "{{upstreams 80}}"
+
   wordpress_db:
     image: mysql:5.7
     user: '1000:1000'
@@ -73,10 +83,12 @@ services:
       - MYSQL_ROOT_PASSWORD=random_password
     volumes:
       - ${HOME}/configs/website/wordpress_db:/var/lib/mysql
+
+
 networks:
-  nginx-proxy:
+  caddy:
     external:
-      name: nginx-proxy
+      name: caddy
   website-internal:
     name: website-internal
     driver: bridge

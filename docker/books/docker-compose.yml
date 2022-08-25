@@ -5,37 +5,39 @@ services:
     image: linuxserver/calibre-web:nightly
     container_name: calibre-web
     networks:
-      - nginx-proxy
+      - caddy
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Europe/Dublin
       - DOCKER_MODS=linuxserver/calibre-web:calibre
-      - VIRTUAL_HOST=library.madpin.dev
-      - VIRTUAL_PORT=8083
     volumes:
       - ${HOME}/configs/calibre/web:/config
       - ${HOME}/calibre_library:/books
     restart: unless-stopped
+    labels:
+      caddy: library.madpin.dev
+      caddy.reverse_proxy: "{{upstreams 8083}}"
 
   calibre:
     image: linuxserver/calibre
     container_name: calibre
     networks:
-      - nginx-proxy
+      - caddy
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Europe/Dublin
       - UMASK_SET=022
-      - VIRTUAL_HOST=calibre.madpin.dev
-      - VIRTUAL_PORT=8080
     volumes:
       - ${HOME}/configs/calibre/desktop:/config
       - ${HOME}/calibre_library:/books
     restart: unless-stopped
+    labels:
+      caddy: calibre.madpin.dev
+      caddy.reverse_proxy: "{{upstreams 8080}}"
 
 networks:
-  nginx-proxy:
+  caddy:
     external:
-      name: nginx-proxy
+      name: caddy

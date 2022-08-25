@@ -1,22 +1,25 @@
 ---
-version: "3.8"
+version: "3.7"
 services:
   vscode:
     image: ghcr.io/linuxserver/code-server
     container_name: vscode
     networks:
-      - nginx-proxy
+      - caddy
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
-      - VIRTUAL_HOST=vscode.madpin.dev
-      - VIRTUAL_PORT=8443
+      - TZ=Europe/Dublin
       - HASHED_PASSWORD=1e257346ce25debb4483bce750a5b90e4e6d0af3863107237b32f14806397128
       - SUDO_PASSWORD_HASH=1e257346ce25debb4483bce750a5b90e4e6d0af3863107237b32f14806397128
+      - DOCKER_MODS=linuxserver/mods:universal-docker|linuxserver/mods:universal-tshoot
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
       - ${HOME}/configs/code:/config
       - ${HOME}/.ssh/id_rsa:/config/.ssh/id_rsa:ro
       - ${HOME}/.ssh/id_rsa.pub:/config/.ssh/id_rsa.pub:ro
@@ -24,11 +27,13 @@ services:
       - ${HOME}/.ssh/id_ed25519.pub:/config/.ssh/id_ed25519.pub:ro
       - ${HOME}:/host_home
       - /:/host_root
-    # ports:
-    #   - 8443:8443
+    labels:
+      caddy: vscode2.madpin.dev
+      caddy.reverse_proxy: "{{upstreams 8443}}"
     restart: unless-stopped
 
+
 networks:
-  nginx-proxy:
+  caddy:
     external:
-      name: nginx-proxy
+      name: caddy
