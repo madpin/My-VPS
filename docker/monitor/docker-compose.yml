@@ -7,6 +7,7 @@ services:
     container_name: netdata
     networks:
       - caddy
+    hostname: netdata.madpin.dev
     environment:
       - NETDATA_CLAIM_TOKEN=f3GK--ydX5dgGdA6tOfhuD5K0N8j0q4w1YVPXT0Ia1Expuk9t-f0W6oUBbu_hzmpdcbpPRj_H_Gbde1eezEV4kgGsHKdaiNwTUNq27oWA5uu0oYuKH0Gn_GdyWwmn_6lymz7TgI
       - NETDATA_CLAIM_URL=https://app.netdata.cloud

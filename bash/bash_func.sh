@@ -46,18 +46,40 @@ function docker_pulls() {
 }
 
 function docker_image_prune() {
+    # docker image prune -f # This also prune Networks
+    # docker network prune -f
+    # docker volume prune -f
+
+    docker builder prune -f # Build Cache
+    docker container prune -f
     docker image prune -f
 }
 
 function all_up() {
 
-    docker-compose -f $DC_PROXY up -d
-    docker-compose -f $DC_BOOKS up -d
-    docker-compose -f $DC_CODE up -d
-    docker-compose -f $DC_JUPYTER up -d
-    docker-compose -f $DC_MONITOR up -d
-    docker-compose -f $DC_PROXY up -d
-    docker-compose -f $DC_WEBSITE up -d
+    # docker-compose -f $DC_PROXY up -d
+    # docker-compose -f $DC_BOOKS up -d
+    # docker-compose -f $DC_CODE up -d
+    # docker-compose -f $DC_JUPYTER up -d
+    # docker-compose -f $DC_MONITOR up -d
+    # docker-compose -f $DC_WEBSITE up -d
+    # scrob_watch
+
+    docker-compose -f $DC_BOOKS up -d & PID_BOOKS=$!
+    docker-compose -f $DC_CODE up -d & PID_CODE=$!
+    docker-compose -f $DC_JUPYTER up -d & PID_JUPYTER=$!
+    docker-compose -f $DC_MONITOR up -d & PID_MONITOR=$!
+    docker-compose -f $DC_PROXY up -d & PID_PROXY=$!
+    docker-compose -f $DC_WEBSITE up -d & PID_WEBSITE=$!
+
+    wait $PID_SCROBBLER
+    wait $PID_BOOKS
+    wait $PID_CODE
+    wait $PID_JUPYTER
+    wait $PID_MONITOR
+    wait $PID_PROXY
+    wait $PID_WEBSITE
+    
     scrob_watch
 }
 
