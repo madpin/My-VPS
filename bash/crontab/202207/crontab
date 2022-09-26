@@ -2,3 +2,4 @@
 0 */1 * * * bash /home/madpin/server/bash/crontab/202207/Every1h.sh
 0 */6 * * * bash /home/madpin/server/bash/crontab/202207/Every6h.sh
 0 */12 * * * bash /home/madpin/server/bash/crontab/202207/Every12h.sh
+*/5 * * * * bash /home/madpin/server/bash/crontab/202207/Every5min.sh
