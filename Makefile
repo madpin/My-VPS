@@ -21,5 +21,8 @@ scrob_watch: ## Keep an eye to what you're watching now.
 scrob_relogin: ## Re-login and plex force relogin
 	source bash/bash_func.sh && scrob_relogin
 
+get_files: ## Get the files from current, and create a git commit
+	source dotFiles/get_files.sh
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
