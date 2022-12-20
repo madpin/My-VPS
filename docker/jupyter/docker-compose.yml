@@ -1,26 +1,26 @@
 version: "3"
 services:
   datascience-notebook:
-    image: jupyter/datascience-notebook
+    # image: jupyter/datascience-notebook
+    build: .
     user: root
-    working_dir: /home/madpin
+    working_dir: /ipynbs
     container_name: jupyter
     networks:
       - caddy
     volumes:
-      - ${HOME}/ipynbs:/home/madpin
+      - ${HOME}/ipynbs:/ipynbs
     environment:
-      - TZ=Europe/Dublin
-      - JUPYTER_ENABLE_LAB=yes
-      - RESTARTABLE=yes
       - NB_GID=1000
       - NB_UID=1000
-      - CHOWN_HOME=yes
+      - NB_USER=madpin
     restart: unless-stopped
     command: >
       start-notebook.sh
       --NotebookApp.password='sha1:47a87a60d69d:e98216612acf96544b2ea28b49bd25db03b58197'
       --ip='*'
+      --notebook-dir=/ipynbs
+      --SchedulerApp.db_url=sqlite:////ipynbs/SchedulerApp.db
     labels:
       caddy: jupyter.madpin.dev
       caddy.reverse_proxy: "{{upstreams 8888}}"

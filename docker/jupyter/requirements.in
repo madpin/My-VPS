@@ -1,0 +1,62 @@
+cachier
+click
+cookiecutter
+cryptography
+# cyberbrain
+datadog
+datadog-api-client
+dateparser
+db-dtypes
+ddtrace
+google-api-python-client
+google-cloud-bigquery
+google-cloud-storage
+interpret
+jinja2
+loguru
+mlflow-skinny
+notifiers
+numpy
+oauth2client
+pandas
+pre-commit
+pretty_errors
+pyarrow
+pyjokes
+pymysql
+pyyaml
+requests[security]
+scipy
+shap
+snowflake-connector-python[pandas]
+sql_metadata
+SQLAlchemy
+sqlparse
+stackprinter
+swifter
+tqdm
+xgboost
+
+jupyterlab-spreadsheet-editor
+jupyterlab_latex
+jupyterlab-github
+jupyterlab-system-monitor
+mitosheet3
+jupyter_scheduler
+jupyterlab_materialdarker
+jupyterlab-code-formatter
+black
+isort
+# flake8
+# jupyterlab-lsp
+# python-lsp-server[all]
+
+ipywidgets
+ipython-sql
+jupyterlab
+jupyterlab-git
+jupyterlab-lsp
+# jupyter-lsp-python
+# jupyter_bokeh
+jupyterlab-drawio
+plotly
