@@ -2,7 +2,7 @@
 version: '3'
 services:
   lychee:
-    image: ghcr.io/linuxserver/lychee:latest
+    image: lscr.io/linuxserver/lychee:latest
     container_name: lychee
     restart: unless-stopped
     networks:
@@ -15,6 +15,7 @@ services:
       - ${HOME}/photos:/pictures
     environment:
       - DB_HOST=lychee_db
+      - DB_CONNECTION=mysql
       - DB_USERNAME=exampleuser
       - DB_PASSWORD=examplepass
       - DB_DATABASE=lychee
@@ -22,6 +23,8 @@ services:
       - PGID=1000
       - PUID=1000
       - TZ=Europe/Dublin
+      - APP_URL=https://photos.madpin.dev
+      - TRUSTED_PROXIES=*
       - VIRTUAL_HOST=photos.madpin.dev
     labels:
       caddy: photos.madpin.dev

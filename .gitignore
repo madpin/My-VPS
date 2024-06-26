@@ -131,3 +131,12 @@ dmypy.json
 .pyre/
 **/log/**
 **.log
+*/**/secrets.env
+docker/ai/litellm.env
+docker/ai/google-vertex-credentials.json
+**/postgres_data/*
+docker/ai/open-webui/*
+docker/ai/searxng/uwsgi.ini
+docker/ai/searxng/settings.yml
+docker/ai/perplexica-app-config.toml
+docker/ai/owui.env

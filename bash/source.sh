@@ -36,12 +36,12 @@ cvenv () {
     subfolder=$1
     ssubfolder=$2
     # python -m venv ${PWD}/$subfolder/venv
-    virtualenv --python="$(indeed-python)" ${PWD}/$subfolder/$ssubfolder/venv
+    # virtualenv --python="$(indeed-python)" ${PWD}/$subfolder/$ssubfolder/venv
+    virtualenv ${PWD}/$subfolder/$ssubfolder/venv
     svenv $1 $2
 }
 
-civenv () {
-    cvenv $1 $2
+ivenv () {
     subfolder=$1
     ssubfolder=$2
     files=("requirements.test" "requirements.dev" \
@@ -67,6 +67,11 @@ civenv () {
             pip install -r ${PWD}/$subfolder/$ssubfolder/$file --quiet
         fi
     done
+}
+
+civenv () {
+    cvenv $1 $2
+    ivenv $1 $2
 }
 
 psync () {

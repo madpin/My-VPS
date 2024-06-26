@@ -31,7 +31,6 @@ services:
       caddy: netdata.madpin.dev
       caddy.reverse_proxy: "{{upstreams 19999}}"
 
-
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
@@ -47,7 +46,6 @@ services:
     labels:
       caddy: portainer.madpin.dev
       caddy.reverse_proxy: "{{upstreams 9000}}"
-
 
   diun:
     image: crazymax/diun:latest
@@ -67,12 +65,17 @@ services:
       - ${HOME}/configs/dium/secrets.env
     restart: unless-stopped
 
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 3600 netdata portainer diun calibre-web calibre caddy whoami vscode
 
 volumes:
   netdataconfig: null
   netdatalib: null
   netdatacache: null
-
 
 networks:
   caddy:
