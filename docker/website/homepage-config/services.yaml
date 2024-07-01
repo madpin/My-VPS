@@ -1,0 +1,65 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- LLM:
+    - Chatgpt Next Web:
+        href: cnw.madpin.dev
+        description: LLM UI (Chinese)
+    - Open Webui:
+        href: owui.madpin.dev
+        description: ChatGPT Like
+    - Silly Tavern:
+        href: sillytavern.madpin.dev
+        description: Characters Like
+    - LiteLLM:
+        href: litellm.madpin.dev
+        description: LLM API Manager
+    - LangFuse:
+        href: cloud.langfuse.com
+        description: LLM API Track
+    - Searxng:
+        href: searxng.madpin.dev
+        description: Search
+
+- Code:
+    - Jupyter:
+        href: jupyter.madpin.dev
+        description: Python
+        # widget:
+        #     type: speedtest
+        #     url: https://www.speedtest.net/
+        #     bitratePrecision: 3 # optional, default is 0
+    - Weather API:
+        # label: Dublin # optional
+        latitude: 53.343098
+        longitude: -6.276360
+        units: metric # or imperial
+        apiKey: 
+        cache: 5 # Time in minutes to cache API responses, to stay within limits
+        format: # optional, Intl.NumberFormat options
+            maximumFractionDigits: 1
+
+
+    - Vscode:
+        href: vscode2.madpin.dev
+        description: IDE
+    - Vscode:
+        href: vscode2.madpin.dev
+        description: IDE
+        widget:
+            type: caddy
+            url: http://caddy:2019 # default admin port is 2019
+
+- Books:
+    - Library:
+        href: library.madpin.dev
+        description: Calibre Web Library
+        widget:
+            type: calibreweb
+            url: https://library.madpin.dev
+            username: madpin
+            password: 
+    - Calibre:
+        href: calibre.madpin.dev
+        description: Calibre Regular

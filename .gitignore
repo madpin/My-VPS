@@ -140,3 +140,4 @@ docker/ai/searxng/uwsgi.ini
 docker/ai/searxng/settings.yml
 docker/ai/perplexica-app-config.toml
 docker/ai/owui.env
+docker/ai/sillytavern-config/config.yaml

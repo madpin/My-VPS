@@ -1,4 +1,8 @@
 
+{
+    debug
+    admin 0.0.0.0:2019
+}
 vscode.madpin.dev {
     reverse_proxy host.docker.internal:3000
 }

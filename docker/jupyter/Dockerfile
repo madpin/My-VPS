@@ -78,7 +78,7 @@ RUN "${CONDA_DIR}/envs/python36/bin/python" -m ipykernel install --name="Python_
     "${CONDA_DIR}/envs/python37/bin/python" -m ipykernel install --name="Python_v3.8"  && \
     "${CONDA_DIR}/envs/python39/bin/python" -m ipykernel install --name="Python_v3.9" && \
     "${CONDA_DIR}/envs/python310/bin/python" -m ipykernel install --name="Python_v3.10" && \
-    "${CONDA_DIR}/envs/python310/bin/python" -m ipykernel install --name="Python_v3.11"
+    "${CONDA_DIR}/envs/python311/bin/python" -m ipykernel install --name="Python_v3.11"
 
 RUN echo "conda activate ${conda_env}" >> "${HOME}/.bashrc"
 # Other Python Kernels <<
