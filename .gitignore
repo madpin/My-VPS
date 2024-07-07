@@ -141,3 +141,8 @@ docker/ai/searxng/settings.yml
 docker/ai/perplexica-app-config.toml
 docker/ai/owui.env
 docker/ai/sillytavern-config/config.yaml
+docker/ai/ai_pg_db/*
+docker/ai/data-node/*
+docker/ai/meili_data_v1.7/*
+*/**/*.env
+*/**/_*.symlink
